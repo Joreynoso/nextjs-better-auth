@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+instalar next
+instalar  shacdn componentes npx shadcn@latest init
+npx shadcn@latest add button label input 
 
-## Getting Started
+instalar prisma y prisma client y instalar betterauth
+npm install prisma@^6.19.0 @prisma/client@^6.19.0
+npx prisma init
+npm install better-auth
 
-First, run the development server:
+crear .env y un secreto  desde : https://www.better-auth.com/docs/installation
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Agregar variables de entorno  
+DATABASE_URL="postgresql://cursonextlab:TrRql98vnIBGWXHOJE7xVFhmygMCi226@dpg-d46e05mmcj7s73ed5deg-a.oregon-postgres.render.com/cursonextlab"
+# Better Auth Configuration
+BETTER_AUTH_SECRET="9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"
+BETTER_AUTH_URL="http://localhost:3000"
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+# Nodemailer SMTP Configuration
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=desbloqueocelusa@gmail.com
+SMTP_PASS=pakelswmravotnul
+SMTP_FROM_NAME="Better Auth App"
+SMTP_FROM_EMAIL=desbloqueocelusa@gmail.com
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+// generar tablas especificas para usar betterauth que las utiliza tambien con 0auth
+npx @better-auth/cli generate
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+//añadir tabla roles  con la relacion usuarios -> en tabla users : role Role  @default(user)
+enum Role {
+  user
+  admin
+}
+crear archivo lib/auth.js
+crear api/auth/[...all]/route.js
+crear archivo auth-client.js para utilizarlo en /login y /register
+crear page register y perfil con boton de logout
+crear page login page e usar auth-client
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+crear auth-guard.js para añadir los handler para la autorizacion en el backend
+hacer un endpoint y probar la autenticacion con withAuth
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Crear recuperacion de contraseña con Nodemailer
+crear archivo email y hacer la funcion  sendPasswordResetEmail y verifyEmailConfig
+crear pagina forgot-password y reset-password
