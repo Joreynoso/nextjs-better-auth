@@ -1,15 +1,25 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Montserrat, Merriweather, Source_Code_Pro } from "next/font/google";
 import "./globals.css";
+import Navbar from '@/components/Navbar';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const fontSans = Montserrat({
+  variable: "--font-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const fontSerif = Merriweather({
+  variable: "--font-serif",
   subsets: ["latin"],
+  weight: ["300", "400", "700", "900"],
+  display: "swap",
+});
+
+const fontMono = Source_Code_Pro({
+  variable: "--font-mono",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,10 +35,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} antialiased`}
+        suppressHydrationWarning={true}
       >
+        <Navbar />
         {/* main crece para empujar el footer hacia abajo */}
-        <main className="flex-1 w-full flex flex-col mx-auto px-6 xl:px-0 bg-zinc-100">
+        <main className="flex-1 w-full flex flex-col mx-auto px-4 xl:px-0 ">
           {children}
         </main>
 

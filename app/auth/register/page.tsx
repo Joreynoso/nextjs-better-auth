@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { authClient, signUp } from '@/lib/auth-client'
+import { authClient } from '@/lib/auth-client'
 import Link from 'next/link'
 
 
@@ -58,12 +58,15 @@ export default function RegisterPage() {
 
     // render return
     return (
-        <div className="flex flex-col min-h-screen items-center justify-center font-sans dark:bg-black">
-            <h2 className='text-2xl font-semibold mb-6'>Registrate con better-auth</h2>
+        <div className="flex flex-col min-h-[calc(100vh-72px)] items-center justify-center font-sans bg-background">
 
-            <form onSubmit={handleSubmit} className='flex flex-col gap-4 w-full max-w-md bg-zinc-50 p-6 rounded-lg shadow-md'>
+            <form onSubmit={handleSubmit} className='flex flex-col gap-4 w-full max-w-md bg-card border border-border p-6 rounded-lg shadow-sm'>
+                <div className='mb-6'>
+                    <h2 className='text-xl font-semibold mb-2 tracking-tight'>Registrate con better-auth</h2>
+                    <p className='text-sm text-muted-foreground tracking-tight'>Ingresa tus datos para registrarte</p>
+                </div>
 
-                <Label htmlFor="name">Nombre</Label>
+                <Label htmlFor="name" className='font-semibold'>Nombre</Label>
                 <Input
                     type="text"
                     placeholder="Nombre"
@@ -71,33 +74,39 @@ export default function RegisterPage() {
                     onChange={(e) => setName(e.target.value)} />
 
                 {/* email input */}
-                <Label htmlFor="email">Correo</Label>
+                <Label htmlFor="email" className='font-semibold'>Correo</Label>
                 <Input
                     type="email"
                     placeholder="Correo"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)} />
+                    onChange={(e) => setEmail(e.target.value)}
+                    autoComplete='new-password'
+                />
 
                 {/* password input */}
-                <Label htmlFor="password">Contraseña</Label>
+                <Label htmlFor="password" className='font-semibold'>Contraseña</Label>
                 <Input
                     type="password"
                     placeholder="Contraseña"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)} />
+                    onChange={(e) => setPassword(e.target.value)}
+                    autoComplete='new-password'
+                />
 
                 {/* confirm password input */}
-                <Label htmlFor="confirmPassword">Confirmar Contraseña</Label>
+                <Label htmlFor="confirmPassword" className='font-semibold'>Confirmar Contraseña</Label>
                 <Input
                     type="password"
                     placeholder="Confirmar Contraseña"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className='mb-6'/>
+                    className='mb-6'
+                    autoComplete='new-password'
+                />
 
                 {/* button */}
                 <Button type="submit">{loading ? 'Registrando...' : 'Registrarse'}</Button>
-                <Link href='/auth/login' className='text-zinc-600 text-center text-sm mt-2'>¿Ya tienes una cuenta?, inicia sesión</Link>
+                <Link href='/auth/login' className='text-muted-foreground text-center text-sm mt-2 hover:text-primary transition-colors'>¿Ya tienes una cuenta?, inicia sesión</Link>
             </form>
         </div>
     )

@@ -22,30 +22,34 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="flex flex-col min-h-screen items-center justify-center font-sans dark:bg-black">
-            <h2 className='text-2xl font-semibold mb-6'>Inicia sesión con better-auth</h2>
-
-            <form onSubmit={handleSubmit} className='flex flex-col gap-4 w-full max-w-md bg-zinc-50 p-6 rounded-lg shadow-md'>
+        <div className="flex flex-col min-h-[calc(100vh-72px)] items-center justify-center font-sans bg-background">
+            <form onSubmit={handleSubmit} className='flex flex-col gap-4 w-full max-w-md bg-card border border-border p-6 rounded-lg shadow-sm'>
+                <div className='mb-6'>
+                    <h2 className='text-xl font-semibold mb-2 tracking-tight'>Inicia sesión con better-auth</h2>
+                    <p className='text-sm text-muted-foreground tracking-tight'>Ingresa tus datos para iniciar sesión</p>
+                </div>
 
                 {/* email input */}
-                <Label htmlFor="email">Correo</Label>
+                <Label htmlFor="email" className='font-semibold'>Correo</Label>
                 <Input
                     type="email"
                     placeholder="Correo"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)} />
+                    onChange={(e) => setEmail(e.target.value)} 
+                    autoComplete='email'/>
 
                 {/* password input */}
-                <Label htmlFor="password">Contraseña</Label>
+                <Label htmlFor="password" className='font-semibold'>Contraseña</Label>
                 <Input
                     type="password"
                     placeholder="Contraseña"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)} />
+                    onChange={(e) => setPassword(e.target.value)}
+                    autoComplete='current-password' />
 
                 {/* button */}
-                <Button type="submit">{loading ? 'Registrando...' : 'Iniciar sesión'}</Button>
-                <Link href='/auth/register' className='text-zinc-600 text-center text-sm mt-2'>¿No tienes una cuenta aún?, registrate</Link>
+                <Button type="submit">{loading ? 'Registrando...' : 'Iniciar sesión'}</Button>
+                <Link href='/auth/register' className='text-muted-foreground text-center text-sm mt-2 hover:text-primary transition-colors tracking-tight'>¿No tienes una cuenta aún?, registrate</Link>
             </form>
         </div>
     )
