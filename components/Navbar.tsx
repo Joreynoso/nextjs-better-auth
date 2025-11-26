@@ -13,13 +13,19 @@ import { useState } from 'react';
 export default function Navbar() {
 
     const [loading, setLoading] = useState(false)
+    const [menuOpen, setMenuOpen] = useState(false)
     const { data: session } = useSession()
     const router = useRouter()
 
     // obtener las dos primeras letras del nombre
-    const getInitials = (name: string) => {
+    const getInitials = (name: string | undefined) => {
         if (!name) return ''
         return name.slice(0, 2).toUpperCase()
+    }
+
+    // toggle menu
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen)
     }
 
     // cerrar sesión
@@ -76,11 +82,11 @@ export default function Navbar() {
                                 </Button>
                             </Link>
 
-                            <Button onClick={handleLogout} 
-                            variant="outline" 
-                            size="icon" 
+                            <Button onClick={handleLogout}
+                                variant="outline"
+                                size="icon"
                             >
-                                { loading ? <LogOut className="animate-spin" /> : <LogOut />}
+                                {loading ? <LogOut className="animate-spin" /> : <LogOut />}
                             </Button>
                         </>
                     )}
@@ -88,10 +94,46 @@ export default function Navbar() {
 
                 {/* buttons section on smaller screens*/}
                 <div className="md:hidden">
-                    <Button variant="outline" size="icon">
+                    <Button variant="outline" size="icon" onClick={toggleMenu}>
                         <Menu className="h-4 w-4" />
                     </Button>
                 </div>
+
+                {/* dropdown menu */}
+                {menuOpen && (
+                    <div className='bg-card border border-border p-4 rounded-lg shadow-sm absolute top-16 right-4'>
+                        <div className="flex flex-col gap-2">
+
+                            {/* inicio */}
+                            <Link href="/">
+                                <Button
+                                    variant="outline"
+                                    className='w-full'>
+                                    Inicio
+                                </Button>
+                            </Link>
+
+                            {/* perfil */}
+                            <Link href="/profile">
+                                <Button
+                                    variant="outline"
+                                    className='w-full'>
+                                    Mi perfil
+                                </Button>
+                            </Link>
+
+                            {/* cerrar sesión */}
+                            <Button onClick={handleLogout}
+                                variant="outline"
+                                className='w-full'>
+                                Cerrar sesión
+                            </Button>
+
+                            {/* theme toggle */}
+                            <ModeToggle />
+                        </div>
+                    </div>
+                )}
 
             </nav>
         </div>

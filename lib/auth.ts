@@ -11,13 +11,12 @@ const auth = betterAuth({
     emailAndPassword: {
         enabled: true,
         requireEmailVerification: false,
-
-        sendResetPassword: async ({ user, url }) => { 
-            await sendPasswordResetEmail(user.email, url)
-        },
-
         minPasswordLength: 6,
         maxPasswordLength: 20,
+
+        sendResetPassword: async ({ user, url }) => {
+            await sendPasswordResetEmail(user.email, url)
+        },
     },
 
     session: {

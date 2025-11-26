@@ -18,7 +18,7 @@ export default function ProfilePage() {
     const { user }: { user: User } = session
 
     return (
-        <div className='flex flex-col min-h-[calc(100vh-72px)] items-center justify-center font-sans bg-background'>
+        <div className='flex flex-col mt-20 items-center justify-center font-sans bg-background'>
             <div className='flex flex-col gap-4 w-full max-w-md bg-card border border-border p-6 rounded-lg shadow-sm'>
 
                 <div>
