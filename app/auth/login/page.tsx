@@ -4,9 +4,10 @@ import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { toast } from 'sonner';
 import { authClient } from '@/lib/auth-client';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
     // default states
@@ -15,10 +16,36 @@ export default function LoginPage() {
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
 
+    const router = useRouter()
+
     // function to handle the form submission
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log('handleSubmit')
+        setLoading(true)
+        setError('')
+
+        try {
+            const result = await authClient.signIn.email({
+                email,
+                password
+            })
+
+            if (result.error?.message) {
+                setError(result.error.message)
+                toast.error(result.error.message)
+                setLoading(false)
+                return
+            }
+            
+            router.push("/profile"); // redirect to login page
+            toast.success('Inicio de sesión exitoso')
+
+        } catch (error) {
+            setError('Algo salió mal')
+            toast.error('Algo salió mal')
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
@@ -35,8 +62,8 @@ export default function LoginPage() {
                     type="email"
                     placeholder="Correo"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)} 
-                    autoComplete='email'/>
+                    onChange={(e) => setEmail(e.target.value)}
+                    autoComplete='email' />
 
                 {/* password input */}
                 <Label htmlFor="password" className='font-semibold'>Contraseña</Label>
@@ -48,8 +75,9 @@ export default function LoginPage() {
                     autoComplete='current-password' />
 
                 {/* button */}
-                <Button type="submit">{loading ? 'Registrando...' : 'Iniciar sesión'}</Button>
-                <Link href='/auth/register' className='text-muted-foreground text-center text-sm mt-2 hover:text-primary transition-colors tracking-tight'>¿No tienes una cuenta aún?, registrate</Link>
+                <Button type="submit">{loading ? 'Iniciado sesión...' : 'Iniciar sesión'}</Button>
+                <Link href='/auth/register' className='text-muted-foreground text-center text-sm mt-2 hover:text-primary transition-colors tracking-tight'>
+                ¿No tienes una cuenta aún?. Registrate</Link>
             </form>
         </div>
     )

@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { authClient } from '@/lib/auth-client'
 import Link from 'next/link'
+import { toast } from 'sonner'
 
 
 export default function RegisterPage() {
@@ -42,15 +43,19 @@ export default function RegisterPage() {
 
             if (result.error?.message) {
                 setError(result.error.message)
+                toast.error(result.error.message)
                 setLoading(false)
                 return
             }
 
             console.log(result)
+            toast.success('Registro exitoso')
             router.push('/auth/login')
+
         } catch (error) {
             console.log(error)
             setError('Algo salio mal')
+            toast.error('Algo salio mal')
         } finally {
             setLoading(false)
         }
@@ -106,7 +111,7 @@ export default function RegisterPage() {
 
                 {/* button */}
                 <Button type="submit">{loading ? 'Registrando...' : 'Registrarse'}</Button>
-                <Link href='/auth/login' className='text-muted-foreground text-center text-sm mt-2 hover:text-primary transition-colors'>¿Ya tienes una cuenta?, inicia sesión</Link>
+                <Link href='/auth/login' className='text-muted-foreground text-center text-sm mt-2 hover:text-primary transition-colors'>¿Ya tienes una cuenta?. Inicia sesión</Link>
             </form>
         </div>
     )

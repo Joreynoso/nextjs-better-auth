@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Montserrat, Merriweather, Source_Code_Pro } from "next/font/google";
 import "./globals.css";
 import Navbar from '@/components/Navbar';
+import { ThemeProvider } from '../components/theme-provider';
+import { Toaster } from '@/components/ui/sonner';
 
 const fontSans = Montserrat({
   variable: "--font-sans",
@@ -38,12 +40,21 @@ export default function RootLayout({
         className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} antialiased`}
         suppressHydrationWarning={true}
       >
-        <Navbar />
-        {/* main crece para empujar el footer hacia abajo */}
-        <main className="flex-1 w-full flex flex-col mx-auto px-4 xl:px-0 ">
-          {children}
-        </main>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange>
+          <Navbar />
 
+          {/* main crece para empujar el footer hacia abajo */}
+          <main className="flex-1 w-full flex flex-col mx-auto px-4 xl:px-0 ">
+            {children}
+          </main>
+
+          {/* toast */}
+          <Toaster position="top-center" />
+        </ThemeProvider>
       </body>
     </html>
   );
