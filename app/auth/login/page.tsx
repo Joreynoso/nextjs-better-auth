@@ -6,8 +6,13 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { authClient } from '@/lib/auth-client';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+
+// icons
+import { FcGoogle } from "react-icons/fc"
+import { FaGithub } from "react-icons/fa"
+
 
 export default function LoginPage() {
     // default states
@@ -36,7 +41,7 @@ export default function LoginPage() {
                 setLoading(false)
                 return
             }
-            
+
             router.push("/profile"); // redirect to login page
             toast.success('Inicio de sesión exitoso')
 
@@ -45,6 +50,54 @@ export default function LoginPage() {
             toast.error('Algo salió mal')
         } finally {
             setLoading(false)
+        }
+    }
+
+    // funcion para iniciar sesión con Google
+    const handleGoogleSignIn = async () => {
+        try {
+            const result = await authClient.signIn.social({
+                provider: 'google',
+                callbackURL: '/profile',
+                newUserCallbackURL: "/profile"
+            })
+
+            if (result.error?.message) {
+                setError(result.error.message)
+                toast.error(result.error.message)
+                return
+            }
+
+            router.push("/profile"); // redirect to login page
+            toast.success('Inicio de sesión exitoso')
+
+        } catch (error) {
+            setError('Algo salió mal')
+            toast.error('Algo salió mal')
+        }
+    }
+
+    // función para iniciar sesión con Github
+    const handleGithubSignIn = async () => {
+        try {
+            const result = await authClient.signIn.social({
+                provider: 'github',
+                callbackURL: '/profile',
+                newUserCallbackURL: "/profile"
+            })
+
+            if (result.error?.message) {
+                setError(result.error.message)
+                toast.error(result.error.message)
+                return
+            }
+
+            router.push("/profile"); // redirect to login page
+            toast.success('Inicio de sesión exitoso')
+
+        } catch (error) {
+            setError('Algo salió mal')
+            toast.error('Algo salió mal')
         }
     }
 
@@ -76,11 +129,11 @@ export default function LoginPage() {
 
                 {/* button */}<hr className="my-2" />
 
-                <Button type="submit">{loading ? 'Iniciado sesión...' : 'Iniciar sesión'}</Button>
-                <Button type="button" variant={'outline'}>{loading ? 'Registrando...' : 'Registrarse con Google'}</Button>
-                <Button type="button" variant={'outline'}>{loading ? 'Registrando...' : 'Registrarse con Github'}</Button>
+                <Button type="submit">{loading ? 'Iniciando sesión...' : 'Iniciar sesión'}</Button>
+                <Button type="button" variant={'outline'} onClick={handleGoogleSignIn}>{loading ? 'Iniciando sesión...' : 'Inicia sesión con Google'}<FcGoogle /></Button>
+                <Button type="button" variant={'outline'} onClick={handleGithubSignIn}>{loading ? 'Iniciando sesión...' : 'Inicia sesión con Github'}<FaGithub /></Button>
                 <Link href='/auth/register' className='text-muted-foreground text-center text-sm mt-2 hover:text-primary transition-colors tracking-tight'>
-                ¿No tienes una cuenta aún?. Registrate</Link>
+                    ¿No tienes una cuenta aún?. Registrate</Link>
             </form>
         </div>
     )
